@@ -1,4 +1,4 @@
-import { HashHelper } from "./hash-helper";
+import type { HashHelper } from "./hash-helper";
 
 export class FakeHashHelper implements HashHelper {
 	async hash(raw: string): Promise<string> {
