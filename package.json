@@ -1,21 +1,21 @@
 {
-  "name": "fastify-e-commerce",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "lint-safe": "pnpx @biomejs/biome lint --write",
-    "lint": "pnpx @biomejs/biome format --write",
-    "test": "vitest run --coverage"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.17.0",
-  "devDependencies": {
-    "@biomejs/biome": "2.4.6",
-    "@types/node": "^25.3.5",
-    "@vitest/coverage-v8": "4.0.18",
-    "vitest": "^4.0.18"
-  }
+	"name": "fastify-e-commerce",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"lint-safe": "pnpx @biomejs/biome lint --write",
+		"lint": "pnpx @biomejs/biome format --write",
+		"test": "vitest run --coverage"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.17.0",
+	"devDependencies": {
+		"@biomejs/biome": "2.4.6",
+		"@types/node": "^25.3.5",
+		"@vitest/coverage-v8": "4.0.18",
+		"vitest": "^4.0.18"
+	}
 }
