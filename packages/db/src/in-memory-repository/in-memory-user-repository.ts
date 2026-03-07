@@ -5,7 +5,6 @@ import {
 	type UserRepositorySchema,
 	type userSchemaType,
 } from "@fastify-e-commerce/schemas";
-import { randomUUID } from "node:crypto";
 
 export class InMemoryUserRepository implements UserRepositorySchema {
 	public users = new Map<string, userSchemaType>();
