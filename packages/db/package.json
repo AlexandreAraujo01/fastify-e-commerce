@@ -2,9 +2,12 @@
 	"name": "@fastify-e-commerce/db",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
 	"scripts": {
-		"test": "vitest run --passWithNoTests"
+		"test": "vitest run --passWithNoTests",
+		"build": "tsup src/index.ts --format cjs,esm --dts --shims"
 	},
 	"keywords": [],
 	"author": "",
@@ -22,6 +25,7 @@
 		"@types/bcrypt": "^6.0.0",
 		"bcrypt": "^6.0.0",
 		"pg": "^8.20.0",
+		"tsup": "^8.5.1",
 		"uuidv7": "^1.1.0"
 	}
 }
