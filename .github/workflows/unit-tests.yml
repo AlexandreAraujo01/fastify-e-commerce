@@ -1,39 +1,47 @@
 name: "Test"
 
 on:
-    pull_request:
-        branches: [dev] # Executa quando abrir PR para a dev
+  pull_request:
+    branches: [dev, main]
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
 
-        permissions:
-            contents: read
-            pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
 
-        steps:
-            - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
-            # 1. Instalar o pnpm antes de tudo
-            - uses: pnpm/action-setup@v3
-              with:
-                  version: 9 # Use a versão que você tem local
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
 
-            - name: "Install Node"
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20.x"
-                  cache: "pnpm" # Ativa o cache automático do pnpm
+      # 1. Antes de instalar, avisamos ao pnpm 10 que esses scripts são seguros
+      - name: "Allow build scripts"
+        run: pnpm config set allowed-build-scripts "@prisma/engines,bcrypt,prisma,esbuild"
 
-            - name: "Install Deps"
-              # --frozen-lockfile garante que o CI use exatamente o pnpm-lock.yaml
-              run: pnpm install --frozen-lockfile
+      - name: "Install Deps"
+        run: pnpm install --frozen-lockfile
 
-            - name: "Run Unit Tests"
-              # Executa os testes em todos os pacotes do monorepo
-              run: pnpm vitest --config vitest.config.base.ts run --coverage
 
-            - name: "Report Coverage"
-              if: always()
-              uses: davelosert/vitest-coverage-report-action@v2
+      - name: "Generate Prisma Client"
+        run: pnpm --filter @fastify-e-commerce/db prisma:generate # <--- Mudamos para prisma:generate
+
+      - name: "Build Packages"
+        run: pnpm -r build
+
+      - name: "Run Unit Tests"
+        run: pnpm vitest --config vitest.config.base.ts run --coverage.enabled=true
+
+      - name: "Report Coverage"
+        if: always()
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          vite-config-path: "./vitest.config.base.ts"
