@@ -1,11 +1,10 @@
-import { FakeHashHelper } from "@fastify-e-commerce/schemas";
-
 import { InMemoryUserRepository } from "@fastify-e-commerce/db";
 import { describe, it, beforeEach, expect } from "vitest";
 import { CreateUserUseCase } from "./create-user-use-case";
-import type {
-  createUserSchemaType,
-  HashHelper,
+import {
+  FakeHashHelper,
+  type createUserSchemaType,
+  type HashHelper,
 } from "@fastify-e-commerce/schemas";
 import { faker } from "@faker-js/faker";
 let sut: CreateUserUseCase;
