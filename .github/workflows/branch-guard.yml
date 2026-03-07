@@ -1,0 +1,17 @@
+name: "Branch Guard"
+
+on:
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    check-source-branch:
+        runs-on: ubuntu-latest
+        steps:
+            - name: "Verify if PR is coming from dev"
+              if: github.head_ref != 'dev'
+              run: |
+                  echo "ERRO: Pull Requests para a 'main' só são permitidos vindo da 'dev'."
+                  echo "Sua branch de origem é: ${{ github.head_ref }}"
+                  exit 1

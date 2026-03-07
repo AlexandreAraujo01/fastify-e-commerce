@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler", // Ou "node" se o seu ambiente for estritamente Node
+		"types": ["node", "vitest/globals"],
+		"strict": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true
+	},
+	"include": ["vitest.config.base.ts"]
+}

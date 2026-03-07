@@ -1,0 +1,4 @@
+# pnpm-workspace.yaml
+packages:
+  - "apps/*" # Aplicações (ex: web, mobile, api)
+  - "packages/*" # Pacotes compartilhados (ex: ui-components, utils, configs)
