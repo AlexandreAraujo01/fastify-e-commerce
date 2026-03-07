@@ -32,7 +32,7 @@ jobs:
 
             - name: "Run Unit Tests"
               # Executa os testes em todos os pacotes do monorepo
-              run: pnpm vitest run --coverage
+              run: pnpm vitest --config vitest.config.base.ts run --coverage
 
             - name: "Report Coverage"
               if: always()
