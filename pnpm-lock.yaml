@@ -11,6 +11,9 @@ importers:
       '@biomejs/biome':
         specifier: 2.4.6
         version: 2.4.6
+      '@types/node':
+        specifier: ^25.3.5
+        version: 25.3.5
       '@vitest/coverage-v8':
         specifier: 4.0.18
         version: 4.0.18(vitest@4.0.18(@types/node@25.3.5)(jiti@2.6.1)(tsx@4.21.0))
