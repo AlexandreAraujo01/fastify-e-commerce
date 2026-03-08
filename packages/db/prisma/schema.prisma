@@ -20,9 +20,40 @@ model User {
   password String
   first_name String
   last_name String
+  created_at         DateTime             @default(now()) @db.Timestamp(0)
+  updated_at         DateTime             @default(now()) @updatedAt @db.Timestamp(0)
 
   @@index([email])
 }
+
+model Product {
+  product_id String @id
+  name String
+  price Float
+  taxonomie_id Int
+  attributes   Json
+  taxonomies                   Taxonomies     @relation(fields: [taxonomie_id], references: [taxonomie_id], onDelete: Restrict, onUpdate: Cascade)
+  created_at         DateTime             @default(now()) @db.Timestamp(0)
+  updated_at         DateTime             @default(now()) @updatedAt @db.Timestamp(0)
+}
+
+
+
+model Taxonomies {
+  taxonomie_id        Int                @id
+  taxonomie_slug      String @unique
+
+  taxonomie_description String
+
+  created_at         DateTime             @default(now()) @db.Timestamp(0)
+  updated_at         DateTime             @default(now()) @updatedAt @db.Timestamp(0)
+  
+  products Product[]
+
+  @@index([taxonomie_slug])
+}
+
+
 
 // email: z.email(),
 //   password: z.string().min(6),
