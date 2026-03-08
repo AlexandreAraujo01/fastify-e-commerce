@@ -5,3 +5,4 @@ export * from "./errors/user-already-exists-error";
 export * from "./errors/api-error";
 export * from "./utils/hash-helper";
 export * from "./utils/fake-hash-helper";
+export * from "./errors/user-not-found-error";

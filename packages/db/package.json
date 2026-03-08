@@ -1,35 +1,35 @@
 {
-  "name": "@fastify-e-commerce/db",
-  "version": "1.0.0",
-  "description": "",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "test": "vitest run --passWithNoTests",
-	"build": "tsup src/index.ts --format cjs,esm --dts --shims",
-	"prisma:generate": "prisma generate"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.17.0",
-  "devDependencies": {
-    "@types/node": "^25.3.5",
-    "@types/pg": "^8.18.0",
-    "prisma": "^7.4.2"
-  },
-  "dependencies": {
-    "@fastify-e-commerce/schemas": "workspace:*",
-    "@prisma/adapter-pg": "^7.4.2",
-    "@prisma/client": "^7.4.2",
-    "@types/bcrypt": "^6.0.0",
-    "bcrypt": "^6.0.0",
-    "pg": "^8.20.0",
-    "tsup": "^8.5.1",
-    "uuidv7": "^1.1.0"
-  }
+	"name": "@fastify-e-commerce/db",
+	"version": "1.0.0",
+	"description": "",
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"test": "vitest run --passWithNoTests",
+		"build": "tsup src/index.ts --format cjs,esm --dts --shims",
+		"prisma:generate": "prisma generate"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"packageManager": "pnpm@10.17.0",
+	"devDependencies": {
+		"@types/node": "^25.3.5",
+		"@types/pg": "^8.18.0",
+		"prisma": "^7.4.2"
+	},
+	"dependencies": {
+		"@fastify-e-commerce/schemas": "workspace:*",
+		"@prisma/adapter-pg": "^7.4.2",
+		"@prisma/client": "^7.4.2",
+		"@types/bcrypt": "^6.0.0",
+		"bcrypt": "^6.0.0",
+		"pg": "^8.20.0",
+		"tsup": "^8.5.1",
+		"uuidv7": "^1.1.0"
+	}
 }
