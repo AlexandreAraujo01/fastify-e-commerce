@@ -1,4 +1,5 @@
 export * from "./interfaces/zod-user-schema";
+export * from "./interfaces/zod-product-schema";
 export * from "./repositories/user-repository-schema";
 export * from "./either";
 export * from "./errors/user-already-exists-error";
@@ -6,3 +7,9 @@ export * from "./errors/api-error";
 export * from "./utils/hash-helper";
 export * from "./utils/fake-hash-helper";
 export * from "./errors/user-not-found-error";
+export * from "./repositories/product-repository-schema";
+export * from "./repositories/taxonomie-repository-schema";
+export * from "./interfaces/zod-ai-enrichment";
+export * from "./utils/ai-product-enrichment";
+export * from "./utils/zod-validator";
+export * from "./interfaces/zod-taxonomie-schema";
