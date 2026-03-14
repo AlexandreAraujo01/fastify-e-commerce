@@ -26,7 +26,6 @@ export class PrismaUserRepository implements UserRepositorySchema {
 				},
 			});
 		} catch (error) {
-			// Verifica se o erro é conhecido do Prisma
 			if (error instanceof Prisma.PrismaClientKnownRequestError) {
 				if (error.code === "P2002") {
 					return new UserAlreadyExistsError();

@@ -20,11 +20,65 @@ model User {
   password String
   first_name String
   last_name String
+  created_at         DateTime             @default(now()) @db.Timestamp(0)
+  updated_at         DateTime             @default(now()) @updatedAt @db.Timestamp(0)
 
   @@index([email])
 }
 
-// email: z.email(),
-//   password: z.string().min(6),
-//   first_name: z.string().min(3),
-//   last_name: z.string().min(3),
+model Product {
+  product_id String @id
+  name String
+  price Float
+  taxonomie_id String
+  attributes   Json
+  taxonomies                   Taxonomies     @relation(fields: [taxonomie_id], references: [taxonomie_id], onDelete: Restrict, onUpdate: Cascade)
+  created_at         DateTime             @default(now()) @db.Timestamp(0)
+  updated_at         DateTime             @default(now()) @updatedAt @db.Timestamp(0)
+
+
+  inventory Inventory?
+  @@index([name, taxonomie_id])
+}
+
+
+
+model Taxonomies {
+  taxonomie_id        String                @id
+  taxonomie_slug      String @unique
+
+  taxonomie_description String
+
+  created_at         DateTime             @default(now()) @db.Timestamp(0)
+  updated_at         DateTime             @default(now()) @updatedAt @db.Timestamp(0)
+  
+  products Product[]
+
+  @@index([taxonomie_slug])
+}
+
+
+model Inventory {
+  inventory_id String   @id
+  product_id   String   @unique // Um registro de estoque por produto
+  quantity     Int      @default(0)
+  
+  product      Product  @relation(fields: [product_id], references: [product_id])
+  movements    StockMovement[]
+}
+
+model StockMovement {
+  id           String   @id
+  inventory_id String
+  type         String   // 'INPUT' (compra) ou 'OUTPUT' (venda/perda)
+  amount       Int
+  reason       String?  // "Venda pedido #123" ou "Reposição de estoque"
+  created_at   DateTime @default(now())
+
+  inventory    Inventory @relation(fields: [inventory_id], references: [inventory_id])
+}
+
+// model Order {
+//   id   String   @id
+//   products: 
+// }
