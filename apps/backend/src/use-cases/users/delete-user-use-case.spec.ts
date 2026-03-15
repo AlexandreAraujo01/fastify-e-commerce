@@ -2,11 +2,7 @@ import { uuidv7 } from "uuidv7";
 
 import { InMemoryUserRepository } from "@fastify-e-commerce/db";
 import { describe, it, beforeEach, expect } from "vitest";
-import { CreateUserUseCase } from "./create-user-use-case";
-import type {
-	userSchemaType,
-	createUserSchemaType,
-} from "@fastify-e-commerce/schemas";
+import type { userSchemaType } from "@fastify-e-commerce/schemas";
 import { faker } from "@faker-js/faker";
 import { DeleteUserUseCase } from "./delete-user-use-case";
 let sut: DeleteUserUseCase;

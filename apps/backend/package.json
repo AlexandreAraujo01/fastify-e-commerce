@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "tsup src/main.ts --format cjs,esm --dts",
-		"dev": "tsx watch ./src/main.ts",
+		"dev": "tsx watch --env-file=../../.env ./src/main.ts",
 		"start": "node dist/main.js"
 	},
 	"keywords": [],
@@ -25,7 +25,9 @@
 		"bcrypt": "^6.0.0",
 		"faker": "^6.6.6",
 		"fastify": "^5.8.1",
+		"fastify-type-provider-zod": "^6.1.0",
 		"tsx": "^4.21.0",
-		"uuidv7": "^1.1.0"
+		"uuidv7": "^1.1.0",
+		"zod": "^4.3.6"
 	}
 }

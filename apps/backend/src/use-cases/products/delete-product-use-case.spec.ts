@@ -2,10 +2,7 @@ import { uuidv7 } from "uuidv7";
 
 import { InMemoryProductRepository } from "@fastify-e-commerce/db";
 import { describe, it, beforeEach, expect } from "vitest";
-import {
-	ProductNotFoundError,
-	type productSchemaType,
-} from "@fastify-e-commerce/schemas";
+import type { productSchemaType } from "@fastify-e-commerce/schemas";
 import { faker } from "@faker-js/faker";
 import { DeleteProductUseCase } from "./delete-product-use-case";
 import { ProductAlreadyExistsError } from "@fastify-e-commerce/schemas/src/errors/product-already-exists-error";
