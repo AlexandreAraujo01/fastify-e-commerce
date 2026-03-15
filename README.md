@@ -11,7 +11,7 @@ Nota: Por ser um projeto 100% didático, o foco está na qualidade do código e 
 Este é um projeto de e-commerce de alta performance construído com uma arquitetura de monorepo, focado em escalabilidade, tipagem estrita e TDD (Test-Driven Development).
 🛠️ Tech Stack
 
-    Runtime: Node.js (v20+)
+    Runtime: Node.js (v22+)
 
     Framework: Fastify (E-commerce focado em performance)
 
