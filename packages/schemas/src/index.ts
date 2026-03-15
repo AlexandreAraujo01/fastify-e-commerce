@@ -14,3 +14,6 @@ export * from "./utils/ai-product-enrichment";
 export * from "./utils/zod-validator";
 export * from "./interfaces/zod-taxonomie-schema";
 export * from "./errors/product-not-found-error";
+export * from './mocks/fake-product-mock'
+export * from './utils/zod-validator'
+export * from './utils/bcrypt-hash-helper'

@@ -1,6 +1,5 @@
 // vitest.config.ts (na raiz do projeto)
 import { defineConfig } from "vitest/config";
-import path from "node:path";
 export default defineConfig({
 	test: {
 		// Substitui o defineWorkspace e unifica os projetos
