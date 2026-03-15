@@ -9,26 +9,20 @@ import { uuidv7 } from "uuidv7";
 export class InMemoryTaxonomieRepository implements TaxonomieRepositorySchema {
 	public taxonomies: Map<string, TaxonomieSchema> = new Map();
 
-	async create(data: CreateTaxonomieSchema): Promise<TaxonomieSchema | Error> {
+	async create(data: CreateTaxonomieSchema): Promise<TaxonomieSchema> {
 		const uuid = uuidv7();
-		const alreadyExistsTax = await this.find({
-			taxonomie_slug: data.taxonomie_slug,
-		});
-		if (alreadyExistsTax) {
-			return new Error("Taxonomie Already Exists");
-		}
 		const tax = { ...data, taxonomie_id: uuid };
 		this.taxonomies.set(uuid, tax);
 		return tax;
 	}
-	async find(data: FindTaxonomieSchema): Promise<TaxonomieSchema | undefined> {
+	async find(data: FindTaxonomieSchema): Promise<TaxonomieSchema | null> {
 		const alreadyExistsTax = this.taxonomies.entries().find(([id, tax]) => {
 			return (
 				tax.taxonomie_slug === data.taxonomie_slug || id === data.taxonomie_id
 			);
 		});
 		if (!alreadyExistsTax) {
-			return alreadyExistsTax;
+			return null;
 		}
 		const [_, tax] = alreadyExistsTax;
 		return tax;

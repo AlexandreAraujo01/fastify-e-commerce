@@ -1,4 +1,4 @@
-import { InMemoryTaxonomieRepository } from "./../../../../../packages/db/src/in-memory-repository/in-memory-taxonomie-repository";
+import { InMemoryTaxonomieRepository } from "../../../../../packages/db/src/in-memory-repository/in-memory-taxonomie-repository";
 import { describe, beforeEach, it, expect } from "vitest";
 import { FindTaxonomieUseCase } from "./find-taxonomie-use-case";
 import { uuidv7 } from "uuidv7";
@@ -60,6 +60,6 @@ describe("Find taxonomie unit test", () => {
 		const response = await sut.execute({ taxonomie_slug: "non-existent" });
 
 		expect(response.isLeft()).toBe(true);
-		expect(response.value).toBeUndefined();
+		expect(response.value).toBeInstanceOf(Error);
 	});
 });

@@ -13,3 +13,4 @@ export * from "./interfaces/zod-ai-enrichment";
 export * from "./utils/ai-product-enrichment";
 export * from "./utils/zod-validator";
 export * from "./interfaces/zod-taxonomie-schema";
+export * from "./errors/product-not-found-error";

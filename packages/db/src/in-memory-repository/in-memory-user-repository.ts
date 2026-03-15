@@ -1,10 +1,10 @@
-import {
-	UserAlreadyExistsError,
-	type createUserSchemaType,
-	type findUserSchemaType,
-	type UserRepositorySchema,
-	type userSchemaType,
+import type {
+	createUserSchemaType,
+	findUserSchemaType,
+	UserRepositorySchema,
+	userSchemaType,
 } from "@fastify-e-commerce/schemas";
+import { uuidv7 } from "uuidv7";
 
 export class InMemoryUserRepository implements UserRepositorySchema {
 	public users = new Map<string, userSchemaType>();
@@ -21,15 +21,11 @@ export class InMemoryUserRepository implements UserRepositorySchema {
 		return user || null;
 	}
 
-	async create(data: createUserSchemaType): Promise<userSchemaType | Error> {
-		const userAlreadyExists = await this.find({ email: data.email });
-
-		if (userAlreadyExists) {
-			throw new UserAlreadyExistsError();
-		}
+	async create(data: createUserSchemaType): Promise<userSchemaType> {
+		const uuid = uuidv7();
 
 		const newUser: userSchemaType = {
-			user_id: `${this.users.size + 1}`,
+			user_id: uuid,
 			...data,
 		};
 
@@ -37,7 +33,9 @@ export class InMemoryUserRepository implements UserRepositorySchema {
 		return newUser;
 	}
 
-	async clear(): Promise<void> {
-		this.users.clear();
+	async delete(data: { id: string }): Promise<userSchemaType> {
+		const user = this.users.get(data.id) as userSchemaType;
+		this.users.delete(data.id);
+		return user;
 	}
 }
