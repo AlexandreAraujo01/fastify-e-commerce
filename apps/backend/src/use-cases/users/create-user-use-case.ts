@@ -15,21 +15,20 @@ export class CreateUserUseCase {
 	) {}
 	async execute(
 		data: createUserSchemaType,
-	): Promise<Either<Error, userSchemaType>> {
-		const { password, email, ...ndata } = data;
-		const userAlreadyExists = await this.userRepository.find({ email });
+	): Promise<Either<UserAlreadyExistsError, userSchemaType>> {
+		const userAlreadyExists = await this.userRepository.find({
+			email: data.email,
+		});
 		if (userAlreadyExists) {
 			return left(new UserAlreadyExistsError());
 		}
+		const { password, email, ...ndata } = data;
 		const hashedPassword = await this.hashHelper.hash(password);
 		const createdUser = await this.userRepository.create({
 			...ndata,
 			email,
 			password: hashedPassword,
 		});
-		if (createdUser instanceof Error) {
-			return left(createdUser);
-		}
 		return right(createdUser);
 	}
 }

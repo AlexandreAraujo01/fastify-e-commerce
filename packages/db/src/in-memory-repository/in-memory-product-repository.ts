@@ -1,14 +1,17 @@
-import type {
-	createProductSchemaType,
-	findProductType,
-	ProductRepositorySchema,
-	productSchemaType,
+import {
+	ProductNotFoundError,
+	UserNotFoundError,
+	type createProductSchemaType,
+	type findManyProductsSchemaType,
+	type findProductSchemaType,
+	type ProductRepositorySchema,
+	type productSchemaType,
 } from "@fastify-e-commerce/schemas";
 import { uuidv7 } from "uuidv7";
 
 export class InMemoryProductRepository implements ProductRepositorySchema {
 	public products: Map<string, productSchemaType> = new Map();
-	async find(data: findProductType): Promise<productSchemaType | null> {
+	async find(data: findProductSchemaType): Promise<productSchemaType | null> {
 		const productAlreadyExists = this.products
 			.entries()
 			.find(([id, product]) => {
@@ -25,19 +28,27 @@ export class InMemoryProductRepository implements ProductRepositorySchema {
 		const [_, product] = productAlreadyExists;
 		return product;
 	}
-	async create(
-		data: createProductSchemaType,
-	): Promise<productSchemaType | Error> {
-		const productAlreadyExists = await this.find({
-			name: data.name,
-			taxonomie_id: data.taxonomie_id,
-		});
-		if (productAlreadyExists) {
-			return new Error("product already exists");
-		}
+	async create(data: createProductSchemaType): Promise<productSchemaType> {
 		const id = uuidv7();
 		const product = { ...data, product_id: id, taxonomies: [] };
 		this.products.set(id, product);
 		return product;
+	}
+
+	async delete(data: {
+		id: string;
+	}): Promise<productSchemaType | ProductNotFoundError> {
+		const product = this.products.get(data.id);
+		if (!product) {
+			return new ProductNotFoundError();
+		}
+		this.products.delete(data.id);
+		return product;
+	}
+
+	findMany(
+		data: findManyProductsSchemaType,
+	): Promise<productSchemaType[] | Error> {
+		throw new Error("Method not implemented.");
 	}
 }

@@ -3,6 +3,7 @@ import { InMemoryProductRepository } from "./../../../../../packages/db/src/in-m
 import { beforeEach, describe, expect, it } from "vitest";
 import { RegisterProductUseCase } from "./register-product-use-case";
 import type { createProductSchemaType } from "@fastify-e-commerce/schemas";
+import { ProductAlreadyExistsError } from "@fastify-e-commerce/schemas/src/errors/product-already-exists-error";
 
 let sut: RegisterProductUseCase;
 let productRepo: InMemoryProductRepository;
@@ -44,6 +45,6 @@ describe("create a product unit case", () => {
 		await sut.execute(new_product);
 		const response = await sut.execute(new_product);
 		expect(response.isLeft()).toBe(true);
-		expect(response.value).toBeInstanceOf(Error);
+		expect(response.value).toBeInstanceOf(ProductAlreadyExistsError);
 	});
 });

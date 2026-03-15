@@ -5,6 +5,7 @@ export const zodUserSchema = z.object({
 	password: z.string().min(6),
 	first_name: z.string().min(3),
 	last_name: z.string().min(3),
+	user_type: z.enum(["USER", "ADMIN"]),
 });
 
 export const zodCreateUserSchema = z.object({
@@ -12,6 +13,7 @@ export const zodCreateUserSchema = z.object({
 	password: z.string().min(6),
 	first_name: z.string().min(3),
 	last_name: z.string().min(3),
+	user_type: z.enum(["USER", "ADMIN"]).optional().default("USER"),
 });
 
 export const zodFindUserSchema = z.object({

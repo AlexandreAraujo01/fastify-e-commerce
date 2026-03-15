@@ -17,22 +17,16 @@ export class PrismaUserRepository implements UserRepositorySchema {
 		});
 	}
 
-	async create(data: createUserSchemaType): Promise<userSchemaType | Error> {
-		try {
-			return await this.prisma.user.create({
-				data: {
-					...data,
-					user_id: uuidv7(),
-				},
-			});
-		} catch (error) {
-			if (error instanceof Prisma.PrismaClientKnownRequestError) {
-				if (error.code === "P2002") {
-					return new UserAlreadyExistsError();
-				}
-			}
+	async create(data: createUserSchemaType): Promise<userSchemaType> {
+		return await this.prisma.user.create({
+			data: {
+				...data,
+				user_id: uuidv7(),
+			},
+		});
+	}
 
-			throw error;
-		}
+	delete(data: { id: string }): Promise<userSchemaType> {
+		throw new Error("Method not implemented.");
 	}
 }
