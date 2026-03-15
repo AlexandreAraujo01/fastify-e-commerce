@@ -22,6 +22,7 @@ model User {
   last_name String
   created_at         DateTime             @default(now()) @db.Timestamp(0)
   updated_at         DateTime             @default(now()) @updatedAt @db.Timestamp(0)
+  user_type UserType @default(USER)
 
   @@index([email])
 }
@@ -78,7 +79,7 @@ model StockMovement {
   inventory    Inventory @relation(fields: [inventory_id], references: [inventory_id])
 }
 
-// model Order {
-//   id   String   @id
-//   products: 
-// }
+enum UserType {
+  ADMIN
+  USER
+}

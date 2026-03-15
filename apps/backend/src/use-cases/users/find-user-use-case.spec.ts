@@ -20,6 +20,7 @@ describe("find user use case unit test", () => {
 			first_name: faker.person.firstName(),
 			last_name: faker.person.lastName(),
 			password: faker.internet.password(),
+			user_type: "USER",
 		};
 		//colocando o usuario ja dentro do mock
 		userRepo.users.set("1", { user_id: "1", ...user });

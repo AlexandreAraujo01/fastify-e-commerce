@@ -5,11 +5,7 @@ import type {
 } from "@/interfaces/zod-taxonomie-schema";
 
 export abstract class TaxonomieRepositorySchema {
-	abstract create(
-		data: CreateTaxonomieSchema,
-	): Promise<TaxonomieSchema | Error>;
+	abstract create(data: CreateTaxonomieSchema): Promise<TaxonomieSchema>;
 
-	abstract find(
-		data: FindTaxonomieSchema,
-	): Promise<TaxonomieSchema | undefined>;
+	abstract find(data: FindTaxonomieSchema): Promise<TaxonomieSchema | null>;
 }

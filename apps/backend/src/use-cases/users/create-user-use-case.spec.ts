@@ -3,6 +3,7 @@ import { describe, it, beforeEach, expect } from "vitest";
 import { CreateUserUseCase } from "./create-user-use-case";
 import {
 	FakeHashHelper,
+	UserAlreadyExistsError,
 	type createUserSchemaType,
 	type HashHelper,
 } from "@fastify-e-commerce/schemas";
@@ -22,13 +23,20 @@ describe("create user use case unit test", () => {
 			email: "johndoe@example.com",
 			first_name: faker.person.firstName(),
 			last_name: faker.person.lastName(),
-			password: faker.internet.password(),
+			password: "123456",
+			user_type: "USER",
 		};
 
 		const response = await sut.execute(user);
+		if (response.isLeft()) {
+			expect.fail("return result must be right");
+		}
 		expect(response.isRight()).toBe(true);
 		expect(userRepo.users.size).toEqual(1);
-		expect(userRepo.users.get("1")?.email).toEqual("johndoe@example.com");
+		expect(userRepo.users.get(response.value.user_id)?.email).toEqual(
+			"johndoe@example.com",
+		);
+		expect(response.value.password).toEqual("123456-hashed");
 	});
 
 	it("should not be able to create duplicated user", async () => {
@@ -37,12 +45,13 @@ describe("create user use case unit test", () => {
 			first_name: faker.person.firstName(),
 			last_name: faker.person.lastName(),
 			password: faker.internet.password(),
+			user_type: "USER",
 		};
 
 		await sut.execute(user);
 		const response = await sut.execute(user);
 		expect(response.isLeft()).toBe(true);
 		expect(userRepo.users.size).toEqual(1);
-		expect(response.value).toBeInstanceOf(Error);
+		expect(response.value).toBeInstanceOf(UserAlreadyExistsError);
 	});
 });

@@ -21,6 +21,12 @@ export const zodFindProduct = z.object({
 	taxonomie_id: z.uuidv7().optional(),
 });
 
+export const zodFindManyProducts = z.object({
+	name: z.string(),
+	taxonomie_id: z.uuidv7().optional(),
+});
+
 export type productSchemaType = z.infer<typeof zodProductSchema>;
 export type createProductSchemaType = z.infer<typeof zodCreateProductSchema>;
-export type findProductType = z.infer<typeof zodFindProduct>;
+export type findProductSchemaType = z.infer<typeof zodFindProduct>;
+export type findManyProductsSchemaType = z.infer<typeof zodFindManyProducts>;

@@ -1,3 +1,4 @@
+import { ProductAlreadyExistsError } from "./../../../../../packages/schemas/src/errors/product-already-exists-error";
 import {
 	type Either,
 	type createProductSchemaType,
@@ -12,9 +13,18 @@ export class RegisterProductUseCase {
 	async execute(
 		data: createProductSchemaType,
 	): Promise<Either<Error, productSchemaType>> {
+		const alreadyExists = await this.productRepository.find({
+			name: data.name,
+			taxonomie_id: data.taxonomie_id,
+		});
+		if (alreadyExists) {
+			return left(new ProductAlreadyExistsError(data.name));
+		}
+
 		const response = await this.productRepository.create(data);
+
 		if (response instanceof Error) {
-			return left(new Error());
+			return left(response);
 		}
 
 		return right(response);
