@@ -4,7 +4,7 @@ import {
 } from "@fastify-e-commerce/schemas";
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { createUserController } from "../controllers/create-user-controller";
+import { createUserController } from "../../controllers/create-user-controller";
 
 export async function createUserRoute(fastify: FastifyInstance) {
   const app = fastify.withTypeProvider<ZodTypeProvider>();
