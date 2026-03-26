@@ -1,73 +1,60 @@
 import Fastify from "fastify";
-import { healthCheckRoute } from "./http/routes/health-route";
-import { createUserRoute } from "./http/routes/user/user-route";
-import { signInUserRoute } from "./http/routes/user/sign-in-route";
+import cookie from "@fastify/cookie";
 import {
   serializerCompiler,
   validatorCompiler,
   jsonSchemaTransform,
 } from "fastify-type-provider-zod";
-
 import { fastifySwagger } from "@fastify/swagger";
-import { fastifyAutoload } from "@fastify/autoload";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
-import { fastifyJwt } from "@fastify/jwt";
-import path from "node:path";
-const fastify = Fastify({
-  logger: true,
-});
-fastify.setValidatorCompiler(validatorCompiler);
-fastify.setSerializerCompiler(serializerCompiler);
+import { authPlugin } from "./http/plugins/auth";
 
-fastify.register(fastifySwagger, {
-  openapi: {
-    info: {
-      title: "Fastify e-comerce backend",
-      version: "1.0.0",
-    },
-  },
-  transform: jsonSchemaTransform,
-});
+const fastify = Fastify({ logger: true });
 
-fastify.register(fastifySwaggerUi, {
-  routePrefix: "/docs",
-});
+async function bootstrap() {
+  await fastify.register(cookie, {
+    secret: process.env.COOKIE_SECRET || "development-secret-key-123",
+  });
 
-fastify.register(fastifyAutoload, {
-  dir: path.join(__dirname, "http/routes"),
-});
-fastify.register(fastifyJwt, {
-  secret: process.env.JWT_SECRET as string,
-});
-fastify.register(healthCheckRoute);
-fastify.register(createUserRoute);
-fastify.register(signInUserRoute);
-fastify.setErrorHandler(
-  (
-    error: { validation: unknown; statusCode: number; message: string },
-    _,
-    reply,
-  ) => {
-    if (error.validation) {
-      return reply.status(400).send({
-        message: "Dados inválidos",
-        errors: error.validation,
-      });
-    }
 
-    const statusCode = error.statusCode || 500;
-    const message = statusCode >= 500 ? "Internal Server Error" : error.message;
+  fastify.setValidatorCompiler(validatorCompiler);
+  fastify.setSerializerCompiler(serializerCompiler);
 
-    return reply.status(statusCode).send({ message });
-  },
-);
 
-const start = async () => {
+  await fastify.register(authPlugin);
+
+
+  await fastify.register(fastifySwagger, {
+    openapi: { info: { title: "Fastify e-comerce backend", version: "1.0.0" } },
+    transform: jsonSchemaTransform,
+  });
+
+  await fastify.register(fastifySwaggerUi, {
+    routePrefix: "/docs",
+    uiConfig: { persistAuthorization: true },
+  });
+
+  
+  const { healthCheckRoute } = await import("./http/routes/health-route");
+  const { createUserRoute } = await import("./http/routes/user/user-route");
+  const { authUserRoute } = await import("./http/routes/user/auth-route");
+
+  fastify.register(healthCheckRoute);
+  fastify.register(createUserRoute, { prefix: "/user" });
+  fastify.register(authUserRoute, { prefix: "/auth" });
+
+  // 6. ERROR HANDLER
+  fastify.setErrorHandler((error: any, _, reply) => {
+
+    reply.status(error.statusCode || 500).send({ message: error.message });
+  });
+
   try {
-    await fastify.listen({ port: 3001 });
+    await fastify.listen({ port: 3001, host: "0.0.0.0" });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
   }
-};
-start();
+}
+
+bootstrap();
