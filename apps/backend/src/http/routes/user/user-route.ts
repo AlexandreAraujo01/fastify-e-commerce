@@ -9,10 +9,12 @@ import { createUserController } from "../../controllers/create-user-controller";
 export async function createUserRoute(fastify: FastifyInstance) {
   const app = fastify.withTypeProvider<ZodTypeProvider>();
 
+  // Rotas Públicas aqui
   app.post(
-    "/user/create",
+    "/create",
     {
       schema: {
+        description: "Cria um usuario",
         body: zodCreateUserSchema,
         response: {
           201: zodUserSchema,
@@ -23,4 +25,11 @@ export async function createUserRoute(fastify: FastifyInstance) {
       return createUserController(request, reply);
     },
   );
+
+  // Bloco de Rotas Protegidas
+  app.register(async (protectedContext) => {
+    protectedContext.addHook("onRequest", fastify.authenticate);
+
+    protectedContext.get("/test", async () => "teste");
+  });
 }

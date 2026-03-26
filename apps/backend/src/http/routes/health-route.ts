@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { z } from "zod"; // ou do seu pacote de schemas
+import { z } from "zod";
 
 export async function healthCheckRoute(fastify: FastifyInstance) {
   // Adicione o .withTypeProvider aqui
@@ -10,6 +10,7 @@ export async function healthCheckRoute(fastify: FastifyInstance) {
     "/health",
     {
       schema: {
+        description: "verifica se o sistema esta disponivel",
         response: {
           200: z.object({
             health: z.string(),
