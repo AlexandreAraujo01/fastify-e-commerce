@@ -8,21 +8,25 @@ import {
 import { fastifySwagger } from "@fastify/swagger";
 import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import { authPlugin } from "./http/plugins/auth";
-
+import cors from "@fastify/cors";
 const fastify = Fastify({ logger: true });
 
 async function bootstrap() {
-  await fastify.register(cookie, {
-    secret: process.env.COOKIE_SECRET || "development-secret-key-123",
+  await fastify.register(cors, {
+    origin:
+      process.env.NODE_ENV === "production"
+        ? (process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : false)
+        : true,
   });
 
+  await fastify.register(cookie, {
+    secret: process.env.COOKIE_SECRET,
+  });
 
   fastify.setValidatorCompiler(validatorCompiler);
   fastify.setSerializerCompiler(serializerCompiler);
 
-
   await fastify.register(authPlugin);
-
 
   await fastify.register(fastifySwagger, {
     openapi: { info: { title: "Fastify e-comerce backend", version: "1.0.0" } },
@@ -34,7 +38,6 @@ async function bootstrap() {
     uiConfig: { persistAuthorization: true },
   });
 
-  
   const { healthCheckRoute } = await import("./http/routes/health-route");
   const { createUserRoute } = await import("./http/routes/user/user-route");
   const { authUserRoute } = await import("./http/routes/user/auth-route");
@@ -45,7 +48,6 @@ async function bootstrap() {
 
   // 6. ERROR HANDLER
   fastify.setErrorHandler((error: any, _, reply) => {
-
     reply.status(error.statusCode || 500).send({ message: error.message });
   });
 

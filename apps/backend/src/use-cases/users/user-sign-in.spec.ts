@@ -52,7 +52,6 @@ describe("User sign-in use case unit test", () => {
       email: "nonexisting@example.com",
       password: "123456",
     });
-    console.log(response, "response");
     expect(response.isLeft()).toBe(true);
     expect(response.value).toBeInstanceOf(InvalidCredentialsError);
   });

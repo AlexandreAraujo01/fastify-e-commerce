@@ -23,7 +23,7 @@ export class UserSignInUseCase {
       return left(new InvalidCredentialsError());
     }
 
-    const isPasswordCorrect = this.hashHelper.compare(
+    const isPasswordCorrect = await this.hashHelper.compare(
       userDatabase.password,
       data.password,
     );

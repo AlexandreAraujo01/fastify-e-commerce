@@ -1,6 +1,6 @@
 import { prismaInstance, PrismaUserRepository } from "@fastify-e-commerce/db";
 import { CreateUserUseCase } from "../use-cases/users/create-user-use-case";
-import { BcryptHashHelper } from "@fastify-e-commerce/schemas";
+import { BcryptHashHelper } from "../../lib/bcrypt-hash-helper";
 
 export function makeCreateUserUseCase(): CreateUserUseCase {
   const userRepo = new PrismaUserRepository(prismaInstance);

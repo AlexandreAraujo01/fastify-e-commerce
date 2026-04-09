@@ -24,6 +24,8 @@ model User {
   updated_at         DateTime             @default(now()) @updatedAt @db.Timestamp(0)
   user_type UserType @default(USER)
 
+  refresh_tokens RefreshToken[]
+
   @@index([email])
 }
 
@@ -82,4 +84,17 @@ model StockMovement {
 enum UserType {
   ADMIN
   USER
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  user_id   String
+  revoked   Boolean  @default(false)
+  expires_at DateTime
+  created_at DateTime @default(now())
+  
+  user      User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+
+  @@index([user_id])
 }

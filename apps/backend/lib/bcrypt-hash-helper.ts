@@ -1,6 +1,6 @@
-import type { HashHelper } from "./hash-helper";
+import type { FakeHashHelper } from "@fastify-e-commerce/schemas";
 import { hash, compare } from "bcrypt";
-export class BcryptHashHelper implements HashHelper {
+export class BcryptHashHelper implements FakeHashHelper {
   async hash(raw: string): Promise<string> {
     return await hash(raw, 12);
   }

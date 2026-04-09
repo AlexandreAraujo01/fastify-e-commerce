@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "pnpm --filter backend dev",
+    "dev": "pnpm --filter backend --filter @fastify-e-commerce/frontend --parallel dev",
     "lint-safe": "pnpx @biomejs/biome lint --write",
     "lint": "pnpx @biomejs/biome format --write",
     "test": "vitest run --coverage"
